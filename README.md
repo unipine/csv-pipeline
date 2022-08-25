@@ -1,30 +1,49 @@
-## Question 1 - Programming
-_We're looking at your programming ability. It must not only work, it should be maintainable._
+## Overview
 
-Let us assume you are a crypto investor. You have made transactions over a period of time which is logged in a CSV file at the [data directory](https://raw.githubusercontent.com/Propine/2b-boilerplate/master/data/transactions.csv). Write a command line program that returns the latest portfolio value per token in USD
+This repository contains a Node.js script that calculates the portfolio of each cryptocurrency with transaction data in a CSV file.
 
-The program should be ran like this
+## Run the script
+
+Install dependencies.
+
+```
+npm install
+```
+
+Rename `example.env` to `.env` and update the API key with the real key.
 
 ```
 npm run start
 ```
 
-On running, it should return the latest portfolio value per token in USD
+You get the result as below.
+```
+[START]  85.22239995002747
+[END]  2144.940400004387 
 
-The CSV file has the following columns
- - timestamp: Integer number of seconds since the Epoch
- - transaction_type: Either a DEPOSIT or a WITHDRAWAL
- - token: The token symbol
- - amount: The amount transacted
+Number of transactions: 
+BTC:  399264
+ETH:  300467
+XRP:  300268
+Total:  999999
 
-Portfolio means the balance of the token where you need to add deposits and subtract withdrawals. You may obtain the exchange rates from [cryptocompare](https://min-api.cryptocompare.com/documentation) where the API is free. You should write it in Node.js as our main stack is in Javascript/Typescript and we need to assess your proficiency.
+Portfolio (crypto):
+BTC:  39851.199060999104
+ETH:  30572.309748000236
+XRP:  29560.412992000474
 
+Portfolio (USD):
+BTC:  860998306.6085758 USD
+ETH:  52221785.17294913 USD
+XRP:  10301.803927712164 USD
+```
 
-## Submission
+## Solution
 
-Please take no more than 2 hours to finish. We do not track time, hence you can start and end at your own time. Your answers should comprise of the following
+- Used [`csv-parser`](https://www.npmjs.com/package/csv-parser), a dedicated Node.js library for CSV processing, due to the large source file size.
+- Calculated portfolio while file streaming.
+- Got the latest cryptocurrency rates from [CryptoCompare API](https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD) after streaming was complete.
+- Implemented multiple promises to handle a lot of asynchronous process.
+- CSV streaming time tracking is available.
 
-  - Source code that you used for deriving the results
-  - README that explains various design decisions that you took.
-
-Commit your answers in a private Github repository(it's free), please do not fork as other candidates will see your answers. Add Zan(liangzan), Thanh(thanhnpp), Ben(BenPropine) as collaborators then inform us that it is done at zan@propine.com, thanh.nguyen@propine.com, ben.nguyen@propine.com.
+It took about 30 minutes to complete.
