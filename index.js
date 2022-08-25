@@ -27,34 +27,47 @@ function solution() {
   const WITHDRAWAL = "WITHDRAWAL";
 
   const start = now();
-  console.info("[START] ", start);
+  console.log("[START] ", start);
+  const transactions = {};
 
   fs.createReadStream("data/transactions.csv")
     .pipe(csv())
     .on("data", function ({ timestamp, transaction_type, token, amount }) {
       if (!portfolio[token]) portfolio[token] = 0;
+      if (!transactions[token]) transactions[token] = 0;
       if (transaction_type === WITHDRAWAL) amount = -amount;
       portfolio[token] += +amount;
+      transactions[token]++;
     })
     .on("end", function async() {
-      console.info("[END] ", now() - start, "\n");
-      console.info("Portfolio (crypto): ");
+      console.log("[END] ", now() - start, "\n");
+      console.log("Number of transactions: ");
+      Object.keys(transactions).forEach((token) =>
+        console.log(`${token}: `, transactions[token])
+      );
+      console.log(
+        "Total: ",
+        Object.values(transactions).reduce((partialSum, a) => partialSum + a, 0)
+      );
+      console.log("\nPortfolio (crypto): ");
       Object.keys(portfolio).forEach((token) =>
-        console.log(`${token}: ${portfolio[token]}`)
+        console.log(`${token}: `, portfolio[token])
       );
 
       const tokens = Object.keys(portfolio);
       const promises = tokens.map((token) => getRate(token));
 
-      console.info("\nPortfolio (USD): ");
       Promise.all(promises).then((result) => {
+        console.log("\nPortfolio (USD): ");
         result.forEach((item) =>
           item
             ? console.log(
-                `${item.token}: ${portfolio[item.token] * item.rate} USD`
+                `${item.token}: `,
+                portfolio[item.token] * item.rate,
+                "USD"
               )
             : console.warn(
-                "An error occurred while getting rates from https://www.cryptocompare.com/"
+                `An error occurred while getting ${item.token} rate from ${SERVICE_ENDPOINT}.`
               )
         );
       });
