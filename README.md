@@ -44,6 +44,7 @@ XRP:  10304.759969011366 USD
 - Used [`csv-parser`](https://www.npmjs.com/package/csv-parser), a dedicated Node.js library for CSV processing, due to the large source file size.
 - Calculated portfolio while file streaming.
 - Got the latest cryptocurrency rates from [CryptoCompare API](https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD) after streaming was complete.
+- Used [`axios`](https://www.npmjs.com/package/axios) library for HTTP request.
 - Implemented multiple promises to handle a lot of asynchronous process.
 - CSV streaming time tracking is available.
 
