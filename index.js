@@ -40,7 +40,10 @@ function solution() {
       transactions[token]++;
     })
     .on("end", function async() {
-      console.log("[END] ", now() - start, "\n");
+      const end = now();
+      console.info("[END] ", end);
+      console.info("[TOOK] ", end - start, "\n");
+
       console.log("Number of transactions: ");
       Object.keys(transactions).forEach((token) =>
         console.log(`${token}: `, transactions[token])
@@ -49,6 +52,7 @@ function solution() {
         "Total: ",
         Object.values(transactions).reduce((partialSum, a) => partialSum + a, 0)
       );
+
       console.log("\nPortfolio (crypto): ");
       Object.keys(portfolio).forEach((token) =>
         console.log(`${token}: `, portfolio[token])
