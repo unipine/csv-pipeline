@@ -47,5 +47,3 @@ XRP:  10304.759969011366 USD
 - Used [`axios`](https://www.npmjs.com/package/axios) library for HTTP request.
 - Implemented multiple promises to handle a lot of asynchronous process.
 - CSV streaming time tracking is available.
-
-It took about 30 minutes to complete.
